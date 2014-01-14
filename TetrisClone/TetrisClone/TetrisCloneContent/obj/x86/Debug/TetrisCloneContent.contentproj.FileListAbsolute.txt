@@ -1,0 +1,1 @@
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisCloneContent\obj\x86\Debug\TetrisCloneContent.contentprojResolveAssemblyReference.cache

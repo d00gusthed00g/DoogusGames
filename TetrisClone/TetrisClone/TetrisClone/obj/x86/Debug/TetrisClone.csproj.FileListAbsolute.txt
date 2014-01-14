@@ -1,0 +1,8 @@
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\TetrisClone.exe
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\TetrisClone.pdb
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.exe
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.pdb
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisSquare.xnb
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisEmptySquare.xnb
+D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.csprojResolveAssemblyReference.cache

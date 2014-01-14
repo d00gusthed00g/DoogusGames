@@ -13,3 +13,11 @@ D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Tetri
 D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.exe
 D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.pdb
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisEmptySquare.xnb
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisSquare.xnb
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\TetrisClone.exe
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\TetrisClone.pdb
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.csprojResolveAssemblyReference.cache
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.exe
+C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.pdb

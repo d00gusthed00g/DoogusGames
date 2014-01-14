@@ -49,7 +49,6 @@ namespace TetrisClone
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _playField = new PlayField();
             _currentBlock = CreateBlock();
 
@@ -65,10 +64,10 @@ namespace TetrisClone
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // textures for filled / empty cells
             _filledCell = Content.Load<Texture2D>("Sprites/TetrisSquare");
             _emptyCell = Content.Load<Texture2D>("Sprites/TetrisEmptySquare");
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -89,7 +88,13 @@ namespace TetrisClone
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            ProcessInput(gameTime);
 
+            base.Update(gameTime);
+        }
+
+        private void ProcessInput(GameTime gameTime)
+        {
             //_elapsedkeyPressTime += gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState kbState = Keyboard.GetState();
 
@@ -99,30 +104,34 @@ namespace TetrisClone
 
             //if (gameTime.ElapsedGameTime.TotalSeconds - _elapsedkeyPressTime >= 1)
             //{
-            if (kbState.IsKeyDown(Keys.Space) && !_oldKbState.IsKeyDown(Keys.Space) &&
-                gameTime.ElapsedGameTime.TotalSeconds > 1)
+            //    _elapsedkeyPressTime = 0;
+            //}
+
+            if (kbState.IsKeyDown(Keys.Space) && !_oldKbState.IsKeyDown(Keys.Space))// && gameTime.ElapsedGameTime.TotalSeconds > 1)
             {
                 _currentBlock.Rotate();
             }
 
-            if (kbState.IsKeyDown(Keys.Right) && !_oldKbState.IsKeyDown(Keys.Right) )
+            if (kbState.IsKeyDown(Keys.Right) && !_oldKbState.IsKeyDown(Keys.Right))
             {
-                _currentBlock.Translate(TranslationDirection.Right, _playField.Rows, _playField.Columns);
+                _currentBlock.Move(TranslationDirection.Right, _playField);
             }
             if (kbState.IsKeyDown(Keys.Left) && !_oldKbState.IsKeyDown(Keys.Left))
             {
-                    _currentBlock.Translate(TranslationDirection.Left, _playField.Rows, _playField.Columns);
+                _currentBlock.Move(TranslationDirection.Left, _playField);
             }
             if (kbState.IsKeyDown(Keys.Down) && !_oldKbState.IsKeyDown(Keys.Down))
             {
-                    _currentBlock.Translate(TranslationDirection.Down, _playField.Rows, _playField.Columns);
+                _currentBlock.Move(TranslationDirection.Down, _playField);
+            }
+            // for testing TODO remove from final game
+            if (kbState.IsKeyDown(Keys.Up) && !_oldKbState.IsKeyDown(Keys.Up))
+            {
+                _currentBlock.Move(TranslationDirection.Up, _playField);
             }
 
-            //    _elapsedkeyPressTime = 0;
-            //}
 
             _oldKbState = kbState;
-            base.Update(gameTime);
         }
 
         /// <summary>
@@ -133,8 +142,8 @@ namespace TetrisClone
         {
             GraphicsDevice.Clear(Color.White);
 
-
-            RenderObjectsOnPlayfield(_playField, _currentBlock);
+            // render playfield
+            RenderPlayfield(_playField, _currentBlock);
             
             _spriteBatch.Begin();
 
@@ -147,13 +156,16 @@ namespace TetrisClone
 
         private Block CreateBlock()
         {
-            return new OBlock(0, 0);
+            return new IBlock(0, 0);
         }
 
-        private void RenderObjectsOnPlayfield(PlayField playField, Block currentBlock)
+        private void RenderPlayfield(PlayField playField, Block currentBlock)
         {
             // draw the block to playfield
-            playField.RenderBlock(currentBlock);
+            playField.AddBlock(currentBlock);
+
+            // draw blocks on field
+            playField.Update();
         }
 
         /// <summary>

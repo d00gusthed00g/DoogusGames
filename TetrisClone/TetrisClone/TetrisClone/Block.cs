@@ -9,16 +9,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TetrisClone
 {
-    public enum TranslationDirection { Left, Right, Down}
+    public enum TranslationDirection { Left, Right, Down, Up}
 
     public abstract class Block : TetrisGrid
     {
+        private const int ColumnCount = 4, RowCount = 4;
+
         protected Texture2D BackgroundTexture;
         public int ColPosition { get; set; }
         public int RowPosition { get; set; }
         public int RotationIndex { get; set; }
-
-        private const int ColumnCount = 4, RowCount =4;
+        
+        public int RightColumnsClipping { get; set; }
+        public int LeftColumnsClipping { get; set; }
 
         protected Block(int colPosition, int rowPosition) : base(RowCount, ColumnCount)
         {
@@ -29,49 +32,108 @@ namespace TetrisClone
 
         public virtual void Rotate()
         {
+            // TODO: perform wall kick
+
             if (RotationIndex >= 3)
                 RotationIndex = 0;
             else
                 RotationIndex++;
         }
 
-        public virtual void Translate(TranslationDirection dir, int pfRows, int pfColumns)
+        public virtual void Move(TranslationDirection dir, PlayField pf)
         {
-            if (IsCollision(dir, pfRows, pfColumns)) return;
             
+            byte[] wall = { 1,1,1,1 };
+            byte[] targetSegment;
+
+
             switch (dir)
             {
                 case TranslationDirection.Right:
+                    // GET TARGET
+                    if (ColPosition + ColumnCount >= pf.Columns)
+                    {
+                        // collision target is wall
+                        targetSegment = wall;
+                    }
+                    else
+                    {
+                        // collision target is the next array of 4 cells vertical
+                        targetSegment = pf.GetColumnSegment(RowPosition, ColPosition + ColumnCount - this.RightColumnsClipping + 1);
+                    }
+
+                    // GET SOURCE
+
+                    // which column of the bounding block are we testing? columns from right to left
+                    for (int col = ColumnCount - 1; col >= 0; col--)
+                    {
+                        byte[] blockColumn = GetBlockColumnSegment(col);
+
+                        // if side collision - no move
+                        if (IsCollision(blockColumn, targetSegment))
+                            return;
+                    }
+
+
                     ColPosition++;
                     break;
                 case TranslationDirection.Left:
                     ColPosition--;
                     break;
+
+
                 case TranslationDirection.Down:
                     RowPosition++;
+                    break;
+                case TranslationDirection.Up:
+                    RowPosition--;
                     break;
             }
         }
 
-        public bool IsCollision(TranslationDirection dir, int pfRows, int pfColumns)
+        // set clipping here
+        private bool IsCollision(byte[] sourceEdge, byte[] targetEdge)
         {
-            var padding = 0;
-            if (HasPadding((dir)))
-                padding = 1;
+            for (int i = 0; i < sourceEdge.Length; i++)
+            {
+                if (sourceEdge[i] == 1)
+                {
+                    if (targetEdge[i] == 1)
+                        return true;
+                }
+                // no collision, test for clipping
+                if (sourceEdge[i] == 0)
+                {
+                    if (targetEdge[i] == 1)
+                    {
+                        this.RightColumnsClipping += 1;
+                        break;
+                    }
+                }
 
+            }
+            return false;
+        }
+
+        public bool IsCollision(TranslationDirection dir, int sourceColumnIndex, byte[] collisionTestTarget)
+        {
             switch (dir)
             {
                 case TranslationDirection.Right:
-                    if (ColPosition + ColumnCount - padding >= pfColumns)
-                        return true;
+                {
+                    
+
                     break;
+                }
+
                 case TranslationDirection.Left:
-                    if (ColPosition + padding <= 0)
-                        return true;
+                {
+              
+
                     break;
+                }
                 case TranslationDirection.Down:
-                    if (RowPosition + RowCount  >= pfRows)
-                            return true;
+              
                     break;
                 default:
                     return false;
@@ -79,36 +141,18 @@ namespace TetrisClone
             return false;
         }
 
-        // returns padding before translation
-        private bool HasPadding(TranslationDirection dir)
+        private byte[] GetBlockColumnSegment(int columnIndex)
         {
-            switch (dir)
+            byte[] segment = new byte[4];
+
+            // get column by applying column index on all rows[]
+            for (int row = 0; row < CellStateArray.Length; row++)
             {
-                case TranslationDirection.Right:
-                    return CellStateArray.All(row => row[ColumnCount - 1] != 1);
-                case TranslationDirection.Left:
-                    return CellStateArray.All(row => row[0] != 1);
-                case TranslationDirection.Down:
-                    return !CellStateArray[RowCount-1].Any(col => col == 1);
-                default:
-                    return false;
+                segment[row] = CellStateArray[row][columnIndex];
             }
+
+            return segment;
         }
-        //// returns padding before translation
-        //private bool HasPadding(TranslationDirection dir)
-        //{
-        //    switch (dir)
-        //    {
-        //        case TranslationDirection.Right:
-        //            return CellStateArray.Any(row => row[ColumnCount - 1] == 1);
-        //        case TranslationDirection.Left:
-        //            return CellStateArray.Any(row => row[0] == 1);
-        //        case TranslationDirection.Down:
-        //            return CellStateArray[RowCount-1].Any(col => col == 1);
-        //        default:
-        //            return false;
-        //    }
-        //}
     }
 
 

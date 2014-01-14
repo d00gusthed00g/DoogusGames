@@ -2,22 +2,22 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Sprites\TetrisSquare.png</Source>
-      <Name>Sprites\TetrisSquare</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisSquare.xnb</Output>
-      <Time>2014-01-01T23:07:30.3665855-05:00</Time>
-    </Item>
-    <Item>
       <Source>Sprites\TetrisEmptySquare.png</Source>
       <Name>Sprites\TetrisEmptySquare</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisEmptySquare.xnb</Output>
+      <Output>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisEmptySquare.xnb</Output>
       <Time>2014-01-01T23:31:30.1409358-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\TetrisSquare.png</Source>
+      <Name>Sprites\TetrisSquare</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\Sprites\TetrisSquare.xnb</Output>
+      <Time>2014-01-01T23:07:30.3665855-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -26,10 +26,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisCloneContent\</RootDirectory>
-      <LoggerRootDirectory>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisCloneContent\</RootDirectory>
+      <LoggerRootDirectory>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

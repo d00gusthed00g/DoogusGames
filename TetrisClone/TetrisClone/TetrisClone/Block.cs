@@ -35,9 +35,9 @@ namespace TetrisClone
                 RotationIndex++;
         }
 
-        public virtual void Translate(TranslationDirection dir)
+        public virtual void Translate(TranslationDirection dir, int pfRows, int pfColumns)
         {
-            if (IsCollision((dir))) return;
+            if (IsCollision(dir, pfRows, pfColumns)) return;
             
             switch (dir)
             {
@@ -53,28 +53,62 @@ namespace TetrisClone
             }
         }
 
-        // returns padding before translation
-        public bool IsCollision(TranslationDirection dir)
+        public bool IsCollision(TranslationDirection dir, int pfRows, int pfColumns)
         {
-            if (dir == TranslationDirection.Right)
-            {
-                return CellStateArray.Any(row => row[ColumnCount - 1] == 1);
-            }
-            else if (dir == TranslationDirection.Left)
-            {
-                return CellStateArray.Any(row => row[0] == 1);
-            }
-            else if (dir == TranslationDirection.Down)
-            {
-                // up is down
-                return CellStateArray[RowCount-1].Any(col => col == 1);
-            }
+            var padding = 0;
+            if (HasPadding((dir)))
+                padding = 1;
 
-            else
+            switch (dir)
             {
-                return false;
+                case TranslationDirection.Right:
+                    if (ColPosition + ColumnCount - padding >= pfColumns)
+                        return true;
+                    break;
+                case TranslationDirection.Left:
+                    if (ColPosition + padding <= 0)
+                        return true;
+                    break;
+                case TranslationDirection.Down:
+                    if (RowPosition + RowCount  >= pfRows)
+                            return true;
+                    break;
+                default:
+                    return false;
+            }
+            return false;
+        }
+
+        // returns padding before translation
+        private bool HasPadding(TranslationDirection dir)
+        {
+            switch (dir)
+            {
+                case TranslationDirection.Right:
+                    return CellStateArray.All(row => row[ColumnCount - 1] != 1);
+                case TranslationDirection.Left:
+                    return CellStateArray.All(row => row[0] != 1);
+                case TranslationDirection.Down:
+                    return !CellStateArray[RowCount-1].Any(col => col == 1);
+                default:
+                    return false;
             }
         }
+        //// returns padding before translation
+        //private bool HasPadding(TranslationDirection dir)
+        //{
+        //    switch (dir)
+        //    {
+        //        case TranslationDirection.Right:
+        //            return CellStateArray.Any(row => row[ColumnCount - 1] == 1);
+        //        case TranslationDirection.Left:
+        //            return CellStateArray.Any(row => row[0] == 1);
+        //        case TranslationDirection.Down:
+        //            return CellStateArray[RowCount-1].Any(col => col == 1);
+        //        default:
+        //            return false;
+        //    }
+        //}
     }
 
 

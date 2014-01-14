@@ -107,18 +107,15 @@ namespace TetrisClone
 
             if (kbState.IsKeyDown(Keys.Right) && !_oldKbState.IsKeyDown(Keys.Right) )
             {
-                if (_currentBlock.ColPosition + _currentBlock.Columns < _playField.Columns)
-                    _currentBlock.Translate(TranslationDirection.Right);
+                _currentBlock.Translate(TranslationDirection.Right, _playField.Rows, _playField.Columns);
             }
             if (kbState.IsKeyDown(Keys.Left) && !_oldKbState.IsKeyDown(Keys.Left))
             {
-                if (_currentBlock.ColPosition > 0)
-                    _currentBlock.Translate(TranslationDirection.Left);
+                    _currentBlock.Translate(TranslationDirection.Left, _playField.Rows, _playField.Columns);
             }
             if (kbState.IsKeyDown(Keys.Down) && !_oldKbState.IsKeyDown(Keys.Down))
             {
-                if (_currentBlock.RowPosition > _playField.Rows - _currentBlock.Rows)
-                    _currentBlock.Translate(TranslationDirection.Down);
+                    _currentBlock.Translate(TranslationDirection.Down, _playField.Rows, _playField.Columns);
             }
 
             //    _elapsedkeyPressTime = 0;

@@ -1,2 +1,2 @@
-Content\Sprites\TetrisSquare.xnb
 Content\Sprites\TetrisEmptySquare.xnb
+Content\Sprites\TetrisSquare.xnb

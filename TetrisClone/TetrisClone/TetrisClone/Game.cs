@@ -173,7 +173,7 @@ namespace TetrisClone
         /// </summary> 
         private void DrawPlayfield(PlayField playField)
         {
-            int cellSize = playField.GetCellSize();
+            int cellSize = playField.CellPixelSize;
 
             // fill cells
             for (int row = 0; row < playField.RowCount; row++)

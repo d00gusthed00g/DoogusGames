@@ -29,18 +29,7 @@
 
         public void ClearRow(PlayField landedField)
         {
-            //ClearCells();
 
-            //for (int row = 0; row < landedField.Rows; row++)
-            //    for (int col = 0; col < landedField.Columns; col++)
-            //    {
-            //        if (landedField.IsFilled(row, col))
-            //            this.FillCell(block.RowPosition + row, block.ColPosition + col);
-            //        else
-            //        {
-            //            this.ClearCell(block.RowPosition + row, block.ColPosition + col);
-            //        }
-            //    }
         }
 
 

@@ -13,10 +13,13 @@ namespace TetrisClone
             LandedBlocks = new LandedBlocks(rowCount, columnCount);
 
             //TODO CLEAR - test blocks
-            LandedBlocks.AddBlock(new OBlock(6, 5));
+            //var lBlock = new LBlock(3, 2);
+            //lBlock.Rotate();
+            //lBlock.Rotate();
+            //LandedBlocks.AddBlock(lBlock);
         }
 
-        public void AddBlock(Block block)
+        public void AddBlock(ref Block block)
         {
             _currentBlock = block;
         }

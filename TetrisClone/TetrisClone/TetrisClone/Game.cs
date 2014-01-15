@@ -22,7 +22,7 @@ namespace TetrisClone
         // objects
         private PlayField _playField;
         private Block _currentBlock;
-
+        private BlockFactory _blockFactory;
         // input
         KeyboardState _oldKbState;
         
@@ -50,8 +50,8 @@ namespace TetrisClone
         protected override void Initialize()
         {
             _playField = new PlayField(25, 10);
-            _currentBlock = CreateBlock();
-
+            _blockFactory = new BlockFactory();
+            _currentBlock = _blockFactory.GenerateBlock();
             base.Initialize();
         }
 
@@ -90,6 +90,12 @@ namespace TetrisClone
         {
             ProcessInput(gameTime);
 
+            if (_currentBlock.HasLanded)
+            {
+                _currentBlock = null;
+                _currentBlock = _blockFactory.GenerateBlock();
+            }
+
             base.Update(gameTime);
         }
 
@@ -123,6 +129,7 @@ namespace TetrisClone
             if (kbState.IsKeyDown(Keys.Down) && !_oldKbState.IsKeyDown(Keys.Down))
             {
                 _currentBlock.Move(TranslationDirection.Down, _playField);
+                
             }
             // for testing TODO remove from final game
             if (kbState.IsKeyDown(Keys.Up) && !_oldKbState.IsKeyDown(Keys.Up))
@@ -132,6 +139,9 @@ namespace TetrisClone
 
 
             _oldKbState = kbState;
+
+
+
         }
 
         /// <summary>
@@ -143,7 +153,7 @@ namespace TetrisClone
             GraphicsDevice.Clear(Color.White);
 
             // render playfield
-            RenderPlayfield(_playField, _currentBlock);
+            RenderPlayfield(_playField, ref _currentBlock);
             
             _spriteBatch.Begin();
 
@@ -154,15 +164,10 @@ namespace TetrisClone
             base.Draw(gameTime);
         }
 
-        private Block CreateBlock()
-        {
-            return new IBlock(0, 0);
-        }
-
-        private void RenderPlayfield(PlayField playField, Block currentBlock)
+        private void RenderPlayfield(PlayField playField, ref Block currentBlock)
         {
             // draw the block to playfield
-            playField.AddBlock(currentBlock);
+            playField.AddBlock(ref currentBlock);
 
             // draw blocks on field
             playField.Update();

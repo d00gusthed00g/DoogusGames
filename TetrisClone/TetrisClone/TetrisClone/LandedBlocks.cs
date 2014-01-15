@@ -21,7 +21,7 @@
                     }
                     else
                     {
-                        this.ClearCell(block.RowPosition + row, block.ColPosition + col);
+                        //this.ClearCell(block.RowPosition + row, block.ColPosition + col);
                     }
                 }
             }

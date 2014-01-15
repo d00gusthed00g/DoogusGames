@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -19,8 +18,9 @@ namespace TetrisClone
         public int ColPosition { get; set; }
         public int RowPosition { get; set; }
         public int RotationIndex { get; set; }
+        public bool HasLanded { get; set; }
         
-        protected Block(int colPosition, int rowPosition) : base(RowSize, ColumnSize)
+        protected Block(int rowPosition, int colPosition) : base(RowSize, ColumnSize)
         {
             ColPosition = colPosition;
             RowPosition = rowPosition;
@@ -53,8 +53,14 @@ namespace TetrisClone
                     break;
                 case TranslationDirection.Down:
                     if (!IsBottomCollision(pf.LandedBlocks, RowSize - 1))
+                    {
                         RowPosition++;
-
+                    }
+                    else
+                    {
+                        pf.LandedBlocks.AddBlock(this);
+                        this.HasLanded = true;
+                    }
                     break;
                 case TranslationDirection.Up:
                     RowPosition--;
@@ -132,106 +138,6 @@ namespace TetrisClone
         private byte[] GetRowSegment(int rowIndex)
         {
             return CellStateArray[rowIndex];
-        }
-    }
-
-
-
-    public class IBlock : Block
-    {
-        public IBlock(int col, int row) : base (col, row)
-        {
-            CellStateArray = new[]
-            {
-                new byte[] {0, 1, 0, 0},
-                new byte[] {0, 1, 0, 0},
-                new byte[] {0, 1, 0, 0},
-                new byte[] {0, 1, 0, 0},
-            };
-        }
-
-        public override void Rotate()
-        {
-            base.Rotate();
-
-            switch (RotationIndex)
-            {
-                case 0:
-                    CellStateArray = new[]
-                    {
-                        new byte[] {0, 1, 0, 0},
-                        new byte[] {0, 1, 0, 0},
-                        new byte[] {0, 1, 0, 0},
-                        new byte[] {0, 1, 0, 0},
-                    };
-                    break;
-                case 1:
-                    CellStateArray = new[]
-                    {
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {1, 1, 1, 1},
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 0, 0, 0},
-                    };
-                    break;
-                case 2:
-                    CellStateArray = new[]
-                    {
-                        new byte[] {0, 0, 1, 0},
-                        new byte[] {0, 0, 1, 0},
-                        new byte[] {0, 0, 1, 0},
-                        new byte[] {0, 0, 1, 0},
-                    };
-                    break;
-                case 3:
-                    CellStateArray = new[]
-                    {
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {1, 1, 1, 1},
-                        new byte[] {0, 0, 0, 0},
-                    };
-                    break;
-            }
-        }
-    }
-
-    public class OBlock : Block
-    {
-        public OBlock(int col, int row)
-            : base(col, row)
-        {
-            CellStateArray = new[]
-            {
-                new byte[] {0, 0, 0, 0},
-                new byte[] {0, 0, 0, 0},
-                new byte[] {0, 1, 1, 0},
-                new byte[] {0, 1, 1, 0}
-            };
-        }
-    }
-
-    public class BlockFactory
-    {
-        private readonly Random _rand;
-
-        public BlockFactory()
-        {
-            _rand = new Random();
-        }
-
-        public enum BlockType { I, O, T, S, Z, J, L }
-
-        public Block GetBlock()
-        {
-            int block = _rand.Next(7);
-
-            switch (block)
-            {
-                case (int) BlockType.I: return new IBlock(5,5);
-                case (int) BlockType.O: return new OBlock(5,5);
-                default: return null;
-            }
         }
     }
 }

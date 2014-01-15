@@ -73,7 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="BlockFactory.cs" />
+    <Compile Include="LBlock.cs" />
+    <Compile Include="IBlock.cs" />
     <Compile Include="LandedBlocks.cs" />
+    <Compile Include="OBlock.cs" />
     <Compile Include="PlayerCommands.cs" />
     <Compile Include="PlayField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

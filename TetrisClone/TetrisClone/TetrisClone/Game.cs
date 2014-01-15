@@ -49,7 +49,7 @@ namespace TetrisClone
         /// </summary>
         protected override void Initialize()
         {
-            _playField = new PlayField();
+            _playField = new PlayField(25, 10);
             _currentBlock = CreateBlock();
 
             base.Initialize();
@@ -176,9 +176,9 @@ namespace TetrisClone
             int cellSize = playField.GetCellSize();
 
             // fill cells
-            for (int row = 0; row < playField.Rows; row++)
+            for (int row = 0; row < playField.RowCount; row++)
             {
-                for (int col = 0; col < playField.Columns; col++)
+                for (int col = 0; col < playField.ColumnCount; col++)
                 {
                     bool isFilled = playField.IsFilled(row, col);
 

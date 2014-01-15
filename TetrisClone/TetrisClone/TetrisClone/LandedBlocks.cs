@@ -2,11 +2,8 @@
 {
     public class LandedBlocks : TetrisGrid
     {
-        private const int RowCount = 25;
-        private const int ColumnCount = 10;
-
-        public LandedBlocks()
-            : base(RowCount, ColumnCount)
+        public LandedBlocks(int rowCount, int columnCount)
+            : base(rowCount, columnCount)
         {
             ClearCells();
         }
@@ -14,9 +11,9 @@
         public void AddBlock(Block block)
         {
 
-            for (int row = 0; row < block.Rows; row++)
+            for (int row = 0; row < block.RowCount; row++)
             {
-                for (int col = 0; col < block.Columns; col++)
+                for (int col = 0; col < block.ColumnCount; col++)
                 {
                     if (block.IsFilled(row, col))
                     {
@@ -49,8 +46,8 @@
 
         private void ClearCells()
         {
-            for (int row = 0; row < Rows; row++)
-                for (int col = 0; col < Columns; col++)
+            for (int row = 0; row < base.RowCount; row++)
+                for (int col = 0; col < base.ColumnCount; col++)
                     ClearCell(row, col);
         }
     }

@@ -4,17 +4,16 @@ namespace TetrisClone
 {
     public class PlayField : TetrisGrid
     {
-        private const int RowCount = 25;
-        private const int ColumnCount = 10;
-
-        // assumption, LandedBlocks = same size as PlayField
         public LandedBlocks LandedBlocks;
         private Block _currentBlock;
-
-        public PlayField() : base(RowCount, ColumnCount)
+        
+        public PlayField(int rowCount, int columnCount) : base(rowCount, columnCount)
         {
-           LandedBlocks = new LandedBlocks();
-           LandedBlocks.AddBlock(new OBlock(6, 5));
+            // assumption, LandedBlocks = same size as PlayField
+            LandedBlocks = new LandedBlocks(rowCount, columnCount);
+
+            //TODO CLEAR - test blocks
+            LandedBlocks.AddBlock(new OBlock(6, 5));
         }
 
         public void AddBlock(Block block)
@@ -33,8 +32,8 @@ namespace TetrisClone
         {
             var block = _currentBlock;
 
-            for (int row = 0; row < block.Rows; row++)
-                for (int col = 0; col < block.Columns; col++)
+            for (int row = 0; row < block.RowCount; row++)
+                for (int col = 0; col < block.ColumnCount; col++)
                 {
                     if (block.IsFilled(row, col))
                         this.FillCell(block.RowPosition + row, block.ColPosition + col);
@@ -49,8 +48,8 @@ namespace TetrisClone
         {
             var landedBlocksGrid = this.LandedBlocks;
 
-            for (int row = 0; row < landedBlocksGrid.Rows; row++)
-                for (int col = 0; col < landedBlocksGrid.Columns; col++)
+            for (int row = 0; row < landedBlocksGrid.RowCount; row++)
+                for (int col = 0; col < landedBlocksGrid.ColumnCount; col++)
                 {
                     if (landedBlocksGrid.IsFilled(row, col))
                         this.FillCell(row, col);
@@ -64,20 +63,11 @@ namespace TetrisClone
 
         private void ClearCells()
         {
-             for(int row = 0; row< Rows;row++)
-                for (int col = 0; col < Columns; col++)
-                    ClearCell(row,col);
+            for (int row = 0; row < base.RowCount; row++)
+                for (int col = 0; col < base.ColumnCount; col++)
+                    ClearCell(row, col);
         }
 
-        public byte[] GetColumnSegment(int row, int column)
-        {
-            byte[] targetColumn = new byte[4];
 
-            for (int r = row; r < targetColumn.Length; r++)
-            {
-                targetColumn[r] = this.IsFilled(r, column) ? (byte)1 : (byte)0;
-            }
-            return targetColumn;
-        }
     }
 }

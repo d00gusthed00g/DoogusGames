@@ -2,18 +2,35 @@
 {
     public class TetrisGrid
     {
-        public int Rows { get; set; }
-        public int Columns {get;set;}
+        public int RowCount { get; set; }
+        public int ColumnCount {get;set;}
         public byte[][] CellStateArray;
         private const int CellSize = 30;
 
-        public TetrisGrid(int rows, int columns)
+        public byte[] GetColumnSegment(int row, int column, int rowSize)
         {
-            Rows = rows;
-            Columns = columns;
+            byte[] targetColumn = new byte[4];
+
+            // wall
+            if (column >= ColumnCount || column < 0)
+            {
+                return new byte[] { 1, 1, 1, 1 };
+            }
+
+            for (int r = 0; r < rowSize; r++)
+            {
+                targetColumn[r] = this.IsFilled(row + r, column) ? (byte)1 : (byte)0;
+            }
+            return targetColumn;
+        }
+
+        public TetrisGrid(int rowCount, int columnCount)
+        {
+            RowCount = rowCount;
+            ColumnCount = columnCount;
 
             // initialize block configuration
-            InitializeGrid(rows, columns);
+            InitializeGrid(rowCount, columnCount);
         }
 
         private void InitializeGrid(int rows, int columns)
@@ -38,7 +55,7 @@
 
         public bool IsFilled(int row, int col)
         {
-            if (col >= 0 && col < Columns && row >= 0 && row < Rows)
+            if (col >= 0 && col < ColumnCount && row >= 0 && row < RowCount)
                 return CellStateArray[row][col] == 1;
             
             return false;
@@ -46,13 +63,13 @@
 
         public void FillCell(int row, int col)
         {
-            if (col >= 0 && col < Columns && row >= 0 && row < Rows)
+            if (col >= 0 && col < ColumnCount && row >= 0 && row < RowCount)
                 CellStateArray[row][col] = 1;
         }
 
         public void ClearCell(int row, int col)
         {
-            if (col >= 0 && col < Columns && row >= 0 && row < Rows)
+            if (col >= 0 && col < ColumnCount && row >= 0 && row < RowCount)
                 CellStateArray[row][col] = 0;
         }
     }

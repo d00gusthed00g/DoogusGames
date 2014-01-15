@@ -13,17 +13,14 @@ namespace TetrisClone
 
     public abstract class Block : TetrisGrid
     {
-        private const int ColumnCount = 4, RowCount = 4;
+        private const int ColumnCount = 4, RowSize = 4;
 
         protected Texture2D BackgroundTexture;
         public int ColPosition { get; set; }
         public int RowPosition { get; set; }
         public int RotationIndex { get; set; }
         
-        public int RightColumnsClipping { get; set; }
-        public int LeftColumnsClipping { get; set; }
-
-        protected Block(int colPosition, int rowPosition) : base(RowCount, ColumnCount)
+        protected Block(int colPosition, int rowPosition) : base(RowSize, ColumnCount)
         {
             ColPosition = colPosition;
             RowPosition = rowPosition;
@@ -42,43 +39,17 @@ namespace TetrisClone
 
         public virtual void Move(TranslationDirection dir, PlayField pf)
         {
-            
-            byte[] wall = { 1,1,1,1 };
-            byte[] targetSegment;
-
-
             switch (dir)
             {
                 case TranslationDirection.Right:
-                    // GET TARGET
-                    if (ColPosition + ColumnCount >= pf.Columns)
-                    {
-                        // collision target is wall
-                        targetSegment = wall;
-                    }
-                    else
-                    {
-                        // collision target is the next array of 4 cells vertical
-                        targetSegment = pf.GetColumnSegment(RowPosition, ColPosition + ColumnCount - this.RightColumnsClipping + 1);
-                    }
+                    if (!IsCollision(dir, pf.LandedBlocks, ColumnCount - 1))
+                        ColPosition++;
 
-                    // GET SOURCE
-
-                    // which column of the bounding block are we testing? columns from right to left
-                    for (int col = ColumnCount - 1; col >= 0; col--)
-                    {
-                        byte[] blockColumn = GetBlockColumnSegment(col);
-
-                        // if side collision - no move
-                        if (IsCollision(blockColumn, targetSegment))
-                            return;
-                    }
-
-
-                    ColPosition++;
                     break;
                 case TranslationDirection.Left:
-                    ColPosition--;
+                    if (!IsCollision(dir, pf.LandedBlocks, 0))
+                        ColPosition--;
+
                     break;
 
 
@@ -91,54 +62,41 @@ namespace TetrisClone
             }
         }
 
-        // set clipping here
-        private bool IsCollision(byte[] sourceEdge, byte[] targetEdge)
+        private bool IsCollision(TranslationDirection dir, LandedBlocks lb, int blockColumnIndex)
         {
-            for (int i = 0; i < sourceEdge.Length; i++)
-            {
-                if (sourceEdge[i] == 1)
-                {
-                    if (targetEdge[i] == 1)
-                        return true;
-                }
-                // no collision, test for clipping
-                if (sourceEdge[i] == 0)
-                {
-                    if (targetEdge[i] == 1)
-                    {
-                        this.RightColumnsClipping += 1;
-                        break;
-                    }
-                }
+            // always between 3 - 0 
+            byte[] sourceSegment = this.GetBlockColumnSegment(blockColumnIndex);
 
-            }
+            int column = 0;
+            
+            // target is next playfield column over to current block column
+            if(dir == TranslationDirection.Right)
+                column = this.ColPosition + blockColumnIndex + 1;
+
+            if(dir == TranslationDirection.Left)
+                column = this.ColPosition + blockColumnIndex - 1;
+
+            byte[] targetSegment = lb.GetColumnSegment(RowPosition, column, RowSize); 
+
+            if (IsCollision(sourceSegment, targetSegment))
+                return true;
+
+            if (dir == TranslationDirection.Right)
+                return blockColumnIndex > 0 &&
+                   IsCollision(dir, lb, --blockColumnIndex);
+
+            if (dir == TranslationDirection.Left)
+                return blockColumnIndex < ColumnCount-1 &&
+                   IsCollision(dir, lb, ++blockColumnIndex);
+
+            //else
             return false;
         }
-
-        public bool IsCollision(TranslationDirection dir, int sourceColumnIndex, byte[] collisionTestTarget)
+        
+        private bool IsCollision(byte[] sourceEdge, byte[] targetEdge)
         {
-            switch (dir)
-            {
-                case TranslationDirection.Right:
-                {
-                    
-
-                    break;
-                }
-
-                case TranslationDirection.Left:
-                {
-              
-
-                    break;
-                }
-                case TranslationDirection.Down:
-              
-                    break;
-                default:
-                    return false;
-            }
-            return false;
+            // if any cells collide
+            return sourceEdge.Where((sourceCell, i) => sourceCell == 1 && targetEdge[i] == 1).Any();
         }
 
         private byte[] GetBlockColumnSegment(int columnIndex)

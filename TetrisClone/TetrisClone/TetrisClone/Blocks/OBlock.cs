@@ -1,4 +1,4 @@
-﻿namespace TetrisClone
+﻿namespace TetrisClone.Blocks
 {
     public class OBlock : Block
     {

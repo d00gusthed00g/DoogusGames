@@ -23,9 +23,12 @@
             }
         }
 
-        public void ClearRow(PlayField landedField)
+        public void ClearRow(int row)
         {
-
+            foreach (var col in CellStateArray[row])
+            {
+                ClearCell(row, col);
+            }
         }
 
 

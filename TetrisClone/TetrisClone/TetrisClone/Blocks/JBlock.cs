@@ -1,8 +1,8 @@
-﻿namespace TetrisClone
+﻿namespace TetrisClone.Blocks
 {
-    public class LBlock : Block
+    public class JBlock : Block
     {
-        public LBlock(int row, int col)
+        public JBlock(int row, int col)
             : base(row, col)
         {
             CellStateArray = new[]
@@ -10,7 +10,7 @@
                 new byte[] {0, 0, 0, 0},
                 new byte[] {0, 0, 1, 0},
                 new byte[] {0, 0, 1, 0},
-                new byte[] {0, 0, 1, 1}
+                new byte[] {0, 1, 1, 0}
             };
         }
 
@@ -23,19 +23,19 @@
                 case 0:
                     CellStateArray = new[]
                     {
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 0, 1, 0},
-                        new byte[] {0, 0, 1, 0},
-                        new byte[] {0, 0, 1, 1},
+                new byte[] {0, 0, 0, 0},
+                new byte[] {0, 0, 1, 0},
+                new byte[] {0, 0, 1, 0},
+                new byte[] {0, 1, 1, 0}
                     };
                     break;
                 case 1:
                     CellStateArray = new[]
                     {
                         new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 1, 1, 1},
                         new byte[] {0, 1, 0, 0},
+                        new byte[] {0, 1, 1, 1},
+                        new byte[] {0, 0, 0, 0},
                     };
                     break;
                 case 2:
@@ -43,8 +43,8 @@
                     {
                         new byte[] {0, 0, 0, 0},
                         new byte[] {0, 0, 1, 1},
-                        new byte[] {0, 0, 0, 1},
-                        new byte[] {0, 0, 0, 1},
+                        new byte[] {0, 0, 1, 0},
+                        new byte[] {0, 0, 1, 0},
                     };
                     break;
                 case 3:
@@ -52,8 +52,8 @@
                     {
                         new byte[] {0, 0, 0, 0},
                         new byte[] {0, 0, 0, 0},
-                        new byte[] {0, 0, 0, 1},
                         new byte[] {0, 1, 1, 1},
+                        new byte[] {0, 0, 0, 1},
                     };
                     break;
             }

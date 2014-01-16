@@ -39,6 +39,8 @@ namespace TetrisClone
             };
 
             Content.RootDirectory = "Content";
+            IsFixedTimeStep = true;
+            _timer = new Timer();
         }
 
         /// <summary>
@@ -79,7 +81,6 @@ namespace TetrisClone
             // TODO: Unload any non ContentManager content here
         }
 
-        private double _elapsedkeyPressTime = 0;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -90,6 +91,17 @@ namespace TetrisClone
         {
             ProcessInput(gameTime);
 
+            if (_timer.Ticks < Timer.TICK_TIME)
+            {
+                _timer.UpdateTicks(gameTime.ElapsedGameTime);
+                _timer.IncrementKeypress();
+            }
+            else
+            {
+                _currentBlock.Move(TranslationDirection.Down, _playField);
+                _timer.ResetTicks();
+            }
+
             if (_currentBlock.HasLanded)
             {
                 _currentBlock = null;
@@ -99,45 +111,58 @@ namespace TetrisClone
             base.Update(gameTime);
         }
 
+
+        private readonly Timer _timer;
+        private readonly Timer _timer2;
+
         private void ProcessInput(GameTime gameTime)
         {
             //_elapsedkeyPressTime += gameTime.ElapsedGameTime.TotalSeconds;
-            KeyboardState kbState = Keyboard.GetState();
+            KeyboardState currentKeyState = Keyboard.GetState();
 
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kbState.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || currentKeyState.IsKeyDown(Keys.Escape))
                 this.Exit();
-
-            //if (gameTime.ElapsedGameTime.TotalSeconds - _elapsedkeyPressTime >= 1)
-            //{
-            //    _elapsedkeyPressTime = 0;
-            //}
-
-            if (kbState.IsKeyDown(Keys.Space) && !_oldKbState.IsKeyDown(Keys.Space))// && gameTime.ElapsedGameTime.TotalSeconds > 1)
+            
+            if ((currentKeyState.IsKeyDown(Keys.Space) && _oldKbState.IsKeyUp(Keys.Space) &&
+                _timer.TimeSinceLastKeypress > Timer.ROTATE_TAP_KEYPRESS_TIME) // key not held (tap)
+               ||
+               (currentKeyState.IsKeyDown(Keys.Space) && _oldKbState.IsKeyDown(Keys.Space) &&
+                _timer.TimeSinceLastKeypress > Timer.ROTATE_HOLD_KEYPRESS_TIME)) // key is being held
             {
                 _currentBlock.Rotate();
+                _timer.ResetKeypressTimer();
+            }
+            
+
+            if (_timer.TimeSinceLastKeypress > Timer.FIRST_KEYPRESS_TIME)
+            {
+                if (currentKeyState.IsKeyDown(Keys.Right))
+                {
+                    _currentBlock.Move(TranslationDirection.Right, _playField);
+
+                }
+                if (currentKeyState.IsKeyDown(Keys.Left))
+                {
+                    _currentBlock.Move(TranslationDirection.Left, _playField);
+
+                }
+                if (currentKeyState.IsKeyDown(Keys.Down))
+                {
+                    _currentBlock.Move(TranslationDirection.Down, _playField);
+
+                }
+
+                _timer.ResetKeypressTimer();
             }
 
-            if (kbState.IsKeyDown(Keys.Right) && !_oldKbState.IsKeyDown(Keys.Right))
-            {
-                _currentBlock.Move(TranslationDirection.Right, _playField);
-            }
-            if (kbState.IsKeyDown(Keys.Left) && !_oldKbState.IsKeyDown(Keys.Left))
-            {
-                _currentBlock.Move(TranslationDirection.Left, _playField);
-            }
-            if (kbState.IsKeyDown(Keys.Down) && !_oldKbState.IsKeyDown(Keys.Down))
-            {
-                _currentBlock.Move(TranslationDirection.Down, _playField);
-                
-            }
             // for testing TODO remove from final game
-            if (kbState.IsKeyDown(Keys.Up) && !_oldKbState.IsKeyDown(Keys.Up))
+            if (currentKeyState.IsKeyDown(Keys.Up) && !_oldKbState.IsKeyDown(Keys.Up))
             {
                 _currentBlock.Move(TranslationDirection.Up, _playField);
             }
 
-            _oldKbState = kbState;
+            _oldKbState = currentKeyState;
         }
 
         /// <summary>

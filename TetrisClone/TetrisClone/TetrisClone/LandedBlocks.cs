@@ -1,4 +1,6 @@
-﻿namespace TetrisClone
+﻿using System.Collections.Generic;
+
+namespace TetrisClone
 {
     public class LandedBlocks : TetrisGrid
     {
@@ -23,14 +25,64 @@
             }
         }
 
-        public void ClearRow(int row)
+        public List<int> GetFullRows()
         {
-            foreach (var col in CellStateArray[row])
+            List<int> rows = new List<int>();
+
+            for (int row = 0; row < base.RowCount; row++)
             {
-                ClearCell(row, col);
+                bool hasTetris = true;
+                for (int col = 0; col < base.ColumnCount; col++)
+                {
+                    if (this.IsFilled(row, col))
+                        continue;
+
+                    hasTetris = false;
+                    break;
+                }
+
+                if (hasTetris)
+                {
+                    rows.Add(row);
+                }
+
             }
+
+            return rows;
+
         }
 
+        private bool IsEmptyRow(int row)
+        {
+            for (int col = 0; col < base.ColumnCount; col++)
+            {
+                if (this.IsFilled(row, col))
+                    return false;
+
+                
+            }
+            return true;
+        }
+
+        public void ClearRow(int row)
+        {
+            for (int col = 0; col < CellStateArray[row].Length; col++)
+            {
+               // byte cell = CellStateArray[row][col];
+                ClearCell(row, col);
+            }
+
+            PushRowsDown(row);
+        }
+
+        private void PushRowsDown(int deletedRow)
+        {
+            for (int row = deletedRow; row > 0; row--)
+            {
+                //if (IsEmptyRow(row))
+                CellStateArray[row] = CellStateArray[row - 1];
+            }
+        }
 
         private void ClearCells()
         {

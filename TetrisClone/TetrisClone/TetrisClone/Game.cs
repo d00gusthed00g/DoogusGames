@@ -23,8 +23,10 @@ namespace TetrisClone
         private PlayField _playField;
         private Block _currentBlock;
         private BlockFactory _blockFactory;
+
         // input
         KeyboardState _oldKbState;
+        private readonly Timer _timer;
         
         // textures
         private Texture2D _filledCell;
@@ -105,15 +107,25 @@ namespace TetrisClone
             if (_currentBlock.HasLanded)
             {
                 _currentBlock = null;
+
+               var filledRows = _playField.LandedBlocks.GetFullRows();
+
+                if (filledRows.Count > 0)
+                {
+                    foreach (int row in filledRows)
+                    {
+                        _playField.LandedBlocks.ClearRow(row);
+                    }
+                }
+
                 _currentBlock = _blockFactory.GenerateBlock();
             }
+
+      
 
             base.Update(gameTime);
         }
 
-
-        private readonly Timer _timer;
-        private readonly Timer _timer2;
 
         private void ProcessInput(GameTime gameTime)
         {

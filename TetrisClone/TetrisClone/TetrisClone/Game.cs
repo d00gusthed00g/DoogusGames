@@ -137,11 +137,7 @@ namespace TetrisClone
                 _currentBlock.Move(TranslationDirection.Up, _playField);
             }
 
-
             _oldKbState = kbState;
-
-
-
         }
 
         /// <summary>

@@ -21,3 +21,4 @@ C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClo
 C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.exe
 C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.pdb
+D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisClone\obj\x86\Debug\TetrisClone.csprojResolveAssemblyReference.cache

@@ -1,2 +1,3 @@
 D:\_code\XNA Game Projects\TetrisClone\TetrisClone\TetrisCloneContent\obj\x86\Debug\TetrisCloneContent.contentprojResolveAssemblyReference.cache
 C:\Users\pukalski\Documents\GitHub\DoogusGames\TetrisClone\TetrisClone\TetrisCloneContent\obj\x86\Debug\TetrisCloneContent.contentprojResolveAssemblyReference.cache
+D:\_code\Git\DoogusGames\TetrisClone\TetrisClone\TetrisCloneContent\obj\x86\Debug\TetrisCloneContent.contentprojResolveAssemblyReference.cache

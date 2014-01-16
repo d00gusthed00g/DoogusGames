@@ -19,10 +19,6 @@
                     {
                         this.FillCell(block.RowPosition + row, block.ColPosition + col);
                     }
-                    else
-                    {
-                        //this.ClearCell(block.RowPosition + row, block.ColPosition + col);
-                    }
                 }
             }
         }
